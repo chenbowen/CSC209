@@ -8,29 +8,28 @@ Node * get_list_from_file (char *input_file_name) {
 	Node * tail = NULL;
     //read lines and add to the list
     FILE *input_file=fopen(input_file_name, "r");
-    if(input_file==NULL) {
+    if(input_file==NULL) 
     	fprintf(stderr, "Error opening file.\n");
-    }
-    char line[MAX_LINE];
-    while(fgets(line, MAX_LINE, input_file)!=NULL) {
-    	line[strcspn(line, "\r\n")] = '\0';
-        Node * temp = malloc(sizeof(Node));
-    	temp->str = malloc(sizeof(char)*(strlen(line) + 1));
-    	strcpy(temp->str, line);
-        temp->next = NULL;
-        if(head == NULL) {
-            head = temp;
-            tail = temp;
+    else {
+        char line[MAX_LINE];
+        while(fgets(line, MAX_LINE, input_file)!=NULL) {
+            line[strcspn(line, "\r\n")] = '\0';
+            Node * temp = malloc(sizeof(Node));
+            temp->str = malloc(sizeof(char)*(strlen(line) + 1));
+            strcpy(temp->str, line);
+            temp->next = NULL;
+            if(head == NULL) {
+                head = temp;
+                tail = temp;
+            }
+            else {
+                tail->next = temp;
+                tail = tail->next;
+            }
         }
-        else {
-            tail->next = temp;
-            tail = tail->next;
-        }
     }
-    int error = fclose(input_file);
-    if(error == 1) {
+    if(fclose(input_file) == 1) 
     	fprintf(stderr, "Error closing file\n");
-    }
 	return head;
 }
 
